@@ -1,0 +1,55 @@
+#include <ncurses/curses.h>
+#include <string>
+
+using namespace std;
+
+int main() {
+    int x = 10, y = 10;
+    int ch;
+
+    initscr();
+    raw();
+    keypad(stdscr, TRUE);
+    noecho();
+
+    mvprintw(0, 0, "Gunakan tombol panah untuk menggerakkan teks. Tekan 'q' untuk keluar.");
+    refresh();
+
+    while ((ch = getch()) != 'q') {
+        clear();
+
+        mvprintw(0, 0, "Gunakan tombol panah untuk menggerakkan teks. Tekan 'q' untuk keluar.");
+
+        switch (ch) {
+            case KEY_UP:
+                if (y > 1) y--;
+                break;
+
+            case KEY_DOWN:
+                if (y < LINES - 1) y++;
+                break;
+
+            case KEY_LEFT:
+                if (x > 0) x--;
+                break;
+
+            case KEY_RIGHT:
+                if (x < COLS - 1) x++;
+                break;
+        }
+
+        string xTemp = to_string(x);
+        string yTemp = to_string(y);
+        string chTemp = to_string(ch);
+
+        mvprintw(1, 0, "x: %s", xTemp.c_str());
+        mvprintw(2, 0, "y: %s", yTemp.c_str());
+        mvprintw(3, 0, "in: %s", chTemp.c_str());
+
+        mvprintw(y, x, "X");
+        refresh();
+    }
+
+    endwin();
+    return 0;
+}
