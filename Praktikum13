@@ -1,19 +1,44 @@
 #include <iostream>
 #include <fstream>
+#include <string>
+
 using namespace std;
 
 int main() {
-    ofstream myFile;
+    ifstream myFile;
     string teks;
 
-    cout << "Masukkan teks yang ingin ditulis ke dalam file: ";
-    getline(cin, teks);
+    // --- Membaca file isi satu baris ---
+    myFile.open("data.txt");
+    if (myFile.is_open()) {
+        getline(myFile, teks);
+
+        cout << "Isi File 'data.txt' ===" << endl;
+        cout << teks << endl;
+
+        myFile.close();
+    } else {
+        cout << "Gagal membuka file 'data.txt'" << endl;
+    }
+
+    // --- Membaca file isi lebih dari satu baris ---
+    string semuaBaris;
+    string satuBaris;
 
     myFile.open("data.txt");
-    myFile << teks;
-    myFile.close();
+    if (myFile.is_open()) {
+        while (!myFile.eof()) { // sesuai urutan asli
+            getline(myFile, satuBaris);
+            semuaBaris += satuBaris + "\n"; // perbaiki penambahan string
+        }
 
-    cout << "Teks berhasil ditulis ke dalam file!" << endl;
+        cout << "\n=== Isi File 'data.txt' lebih dari satu baris ===" << endl;
+        cout << semuaBaris << endl;
+
+        myFile.close();
+    } else {
+        cout << "Gagal membuka file 'data.txt'" << endl;
+    }
 
     return 0;
 }
